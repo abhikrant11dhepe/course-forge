@@ -3,6 +3,7 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Navbar from "@/components/Navbar";
+import { Provider } from "@/components/Providers";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -18,11 +19,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(
-        montserrat.className, 'antialiased min-h-screen')}>
-
-        <Navbar />
+        montserrat.className, 'antialiased min-h-screen  dark:bg-gray-900 pt-16')}>
+        <Provider>
+          <Navbar />
         
-        {children}</body>
+          {children}
+        </Provider>
+        </body>
     </html>
   );
 }
