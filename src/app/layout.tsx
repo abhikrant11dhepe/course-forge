@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(
-        montserrat.className, 'antialiased min-h-screen  dark:bg-gray-900 pt-16')}>
+        montserrat.className, 'antialiased min-h-screen  dark:bg-stone-900 pt-16')}>
         <Provider>
           <Navbar />
         
