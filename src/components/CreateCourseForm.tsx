@@ -6,10 +6,13 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { Form } from '@/components/ui/form'
 import { FormControl, FormField, FormItem, FormLabel } from './ui/form'
+import {AnimatePresence, motion} from 'framer-motion'
 import { Input } from './ui/input'
 import { Separator } from './ui/separator'
 import { Button } from './ui/button'
 import { Plus, Trash } from 'lucide-react'
+
+
 
 type Props = {}
 
@@ -51,9 +54,15 @@ const CreateCourseForm = (props: Props) => {
               );
             }}
           />
-
+          <AnimatePresence>
           {form.watch('units').map((_, index) => {
             return (
+              <motion.div key={index}
+              initial={{opacity:0,height:0}}
+              animate={{opacity:1,height:"auto"}}
+              exit={{opacity:0,height:0}}
+              transition={{opacity:{duration:0.4}, height:{duration:0.4}}}
+              >
               <FormField
                 key={index}
                 control={form.control} name={`units.${index}`}
@@ -74,17 +83,27 @@ const CreateCourseForm = (props: Props) => {
                   );
                 }}
               />
+              </motion.div>
             )
           })}
+          </AnimatePresence>
 
           <div className='flex items-center justify-center mt-4'>
             <Separator className='mr-2 flex-[1] dark:bg-gray-700 '/>
             <div className='mx-4'>
-            <Button type='button' variant='secondary' className='my-2 mr-1 font-semibold text-lg rounded-3xl dark:bg-gray-800 hover:dark:bg-gray-700'>
+            <Button type='button' 
+            variant='secondary' 
+            className='my-2 mr-1 font-semibold text-lg rounded-3xl dark:bg-gray-800 hover:dark:bg-gray-700' 
+            onClick={()=>{
+              form.setValue('units',[...form.watch('units'), ""])
+            }}>
               Add Unit
               <Plus className='w-4 h-4 ml-2 text-green-500 text-2xl font-bold'/>
             </Button>
-            <Button type='button' variant='secondary' className='font-semibold text-lg rounded-3xl dark:bg-gray-800 hover:dark:bg-gray-700 my-2 ml-1'>
+            <Button type='button' variant='secondary' className='font-semibold text-lg rounded-3xl dark:bg-gray-800 hover:dark:bg-gray-700 my-2 ml-1'
+            onClick={()=>{
+              form.setValue('units', [...form.watch('units').slice(0,-1)]) //remove last unit
+            }}>
               Remove Unit
               <Trash className='w-4 h-4 ml-2 text-rose-500 text-2xl font-bold'/>
             </Button>
