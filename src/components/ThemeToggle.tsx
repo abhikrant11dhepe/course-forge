@@ -25,14 +25,14 @@ export function ThemeToggle({className, ...props} : React.HTMLAttributes<HTMLDiv
                         <span className="sr-only">Toggle theme</span>
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className='rounded-2xl bg-zinc-200  dark:bg-slate-800' align="end">
-                    <DropdownMenuItem className="font-lightbold text-sm dark:hover:bg-slate-500" onClick={() => setTheme("light")}>
+                <DropdownMenuContent className='rounded-2xl bg-zinc-200  dark:bg-gray-700' align="end">
+                    <DropdownMenuItem className="font-lightbold text-sm dark:bg-gray-700 dark:hover:bg-slate-500" onClick={() => setTheme("light")}>
                         Light
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="font-lightbold text-sm dark:hover:bg-slate-500" onClick={() => setTheme("dark")}>
+                    <DropdownMenuItem className="font-lightbold text-sm dark:bg-gray-700 dark:hover:bg-slate-500" onClick={() => setTheme("dark")}>
                         Dark
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="font-lightbold text-sm dark:hover:bg-slate-500" onClick={() => setTheme("system")}>
+                    <DropdownMenuItem className="font-lightbold text-sm dark:bg-gray-700 dark:hover:bg-slate-500" onClick={() => setTheme("system")}>
                         System
                     </DropdownMenuItem>
                 </DropdownMenuContent>

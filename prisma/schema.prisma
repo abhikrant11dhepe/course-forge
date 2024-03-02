@@ -5,12 +5,12 @@ generator client {
 
 datasource db {
   provider     = "postgresql"
-  url  	    = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  url          = env("DATABASE_URL")
+  directUrl    = env("DIRECT_URL")
   relationMode = "prisma"
   extensions   = [uuidOssp(map: "uuid-ossp")]
-  
 }
+
 //abhikrantdhepe
 
 model Account {
@@ -51,4 +51,66 @@ model User {
   credits       Int       @default(10)
   accounts      Account[]
   sessions      Session[]
+}
+
+// Data Model for Reference:
+//
+//            Course
+//         /    |     \
+//        /     |      \
+//     Unit1   Unit2   Unit3
+//       |       |       |
+//       |       |       |
+//      Chp1    Chp1    Chp1       
+//      Chp2    Chp2    Chp2
+//      Chp3            Chp3
+//                      Chp4
+
+model Course {
+  id    String @id @default(cuid())
+  name  String
+  units Unit[]
+
+  image String
+}
+
+model Unit {
+  id       String @id @default(cuid())
+  courseId String
+
+  course Course @relation(fields: [courseId], references: [id])
+  name   String
+
+  chapters Chapter[]
+
+  @@index([courseId], name: "courseId")
+}
+
+model Chapter {
+  id     String @id @default(cuid())
+  unitId String
+  name   String
+
+  youtubeSearchQuery String //for the Youtube API
+  videoId            String?
+
+  summary String? @db.VarChar(3000)
+
+  unit Unit @relation(fields: [unitId], references: [id])
+
+  // each chapter will have a Question
+  questions Question[]
+
+  @@index([unitId], name: "unitId")
+}
+
+model Question {
+  id        String  @id @default(cuid())
+  chapterId String
+  question  String  @db.VarChar(3000)
+  answer    String  @db.VarChar(3000)
+  options   String  @db.VarChar(3000)
+  chapter   Chapter @relation(fields: [chapterId], references: [id])
+
+  @@index([chapterId], name: "chapterId")
 }

@@ -1,34 +1,80 @@
 "use client"
-import { createChapterSchema } from '@/validators/course'
+import { createChaptersSchema } from '@/validators/course'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { Form } from '@/components/ui/form'
+import { Form } from './ui/form'
 import { FormControl, FormField, FormItem, FormLabel } from './ui/form'
 import {AnimatePresence, motion} from 'framer-motion'
 import { Input } from './ui/input'
 import { Separator } from './ui/separator'
 import { Button } from './ui/button'
 import { Plus, Trash } from 'lucide-react'
+import { useMutation } from '@tanstack/react-query'
+import axios from 'axios'
+import { useToast } from './ui/use-toast'
+import { useRouter } from 'next/navigation'
 
 
 
 type Props = {}
 
-type Input = z.infer<typeof createChapterSchema>
+type Input = z.infer<typeof createChaptersSchema>
 
 const CreateCourseForm = (props: Props) => {
+  
+  const router = useRouter()
+
+  const {toast} = useToast()
+
+  const {mutate:createChapters, isPending} = useMutation({
+    mutationFn: async({title,units}:Input)=>{
+      const response = await axios.post('/api/course/createChapters',{title,units})
+
+      return response.data
+    }
+  })
+
   const form = useForm<Input>({
-    resolver: zodResolver(createChapterSchema),
+    resolver: zodResolver(createChaptersSchema),
     defaultValues: {
-      title: '',
-      units: ['', '', '']
+      title: "",
+      units: ["", "", ""],
     }
   });
 
+
   function onSubmit(data: Input) {
-    console.log(data);
+
+    if(data.units.some(unit=>unit==='')){
+      toast({
+        title:"Error",
+        description:"Please enter all the units",
+        variant:"destructive",
+      });
+      return;
+    }
+
+    createChapters(data,{
+      onSuccess:({course_id})=>{
+        toast({
+          title:"Success",
+          description:"Course created successfully",
+        })
+
+        router.push(`/forge/${course_id}`);
+      },
+
+      onError:(error)=>{
+        console.error(error);
+        toast({
+          title:"Error",
+          description:"Something went wrong",
+          variant:"destructive",
+        })
+      }
+    });
   }
 
   form.watch();
@@ -110,6 +156,9 @@ const CreateCourseForm = (props: Props) => {
             </div>
             <Separator className='ml-2 flex-[1] dark:bg-gray-700 '/>
           </div>
+          <Button disabled={isPending}  type='submit' size='lg' className='mt-6 items-center w-3/4 font-semibold text-black bg-stone-200 dark:text-white text-lg rounded-2xl dark:bg-gray-800 hover:dark:bg-gray-700 my-2 '>
+            Let&apos;s Forge!
+          </Button>
         </form>
       </Form>
     </div>

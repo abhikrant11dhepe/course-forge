@@ -13,7 +13,7 @@ const Forge = async(props: Props) => {
   }
   return (
     <div className="flex flex-col md:flex-row sm:flex-row h-screen ">
-      {/* Left Div (Typewriting Effect) */}
+      {/* Left Div */}
       <div className="md:-mt-24 sm:-mt-8 md:w-1/2 dark:bg-stone-900 bg-blue-500 text-black dark:text-white p-8 flex items-center justify-center text-center pb-8">
         <div>
           <h1 className="text-6xl md:text-8xl mb-4 font-black">THE</h1>
@@ -34,3 +34,5 @@ const Forge = async(props: Props) => {
 }
 
 export default Forge
+
+
