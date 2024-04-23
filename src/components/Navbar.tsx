@@ -26,8 +26,11 @@ const Navbar = async (props: Props) => {
               <Link href="/forge" className="mr-6 font-lightbold text-base hover:-translate-y-[-2px] transition-all">
                 Forge
               </Link>
-              <Link href="/settings" className="mr-6 font-lightbold text-base hover:-translate-y-[-2px] transition-all">
-                Settings
+              <Link href="https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox?compose=new" className="mr-6 font-lightbold text-base hover:-translate-y-[-2px] transition-all">
+                Mail Us
+              </Link>
+              <Link href="https://drive.google.com/drive/folders/1Y6Lh9xmdvbC3YrBiW3yn1ZCHTGO5wTYf" className="mr-6 font-lightbold text-base hover:-translate-y-[-2px] transition-all">
+                Downloads
               </Link>
             </>
           )}
